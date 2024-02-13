@@ -1,6 +1,6 @@
 ## Challenge
 
-This is a personal challenge to try and complete the challenge presented by PROS at the 2024 Code Red Hackathon in 24 non consecutive hours. 
+This is a personal challenge to try and complete the problem presented by PROS at the 2024 Code Red Hackathon in 24 non consecutive hours. 
 
 ## Problem Statement
 
