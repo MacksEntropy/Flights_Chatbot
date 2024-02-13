@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 flask = "*"
+spacy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
