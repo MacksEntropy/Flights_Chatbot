@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a42d55b6cfb08a5e41c324ba4cb9e02a9c05468c2af1759375c271ac5190f88a"
+            "sha256": "41a878522d0d60ca9ba0a16ed4dbe431837f7d1feebdd55e5f736732e4576460"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,13 @@
         ]
     },
     "default": {
+        "amadeus": {
+            "hashes": [
+                "sha256:d19805e19d699d2633911c5b52400f82c6719676cc1488f8ccf344dbc4eb3202"
+            ],
+            "index": "pypi",
+            "version": "==9.0.0"
+        },
         "annotated-types": {
             "hashes": [
                 "sha256:0641064de18ba7a25dee8f96403ebc39113d0cb953a01429249d5c7564666a43",
