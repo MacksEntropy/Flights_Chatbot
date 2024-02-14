@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "41a878522d0d60ca9ba0a16ed4dbe431837f7d1feebdd55e5f736732e4576460"
+            "sha256": "41899e773b86b6c247b769471f425e7fd7f135ffa89d886af2f6f1ddbc6bcf57"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -213,6 +213,14 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==0.1.4"
+        },
+        "currencyconverter": {
+            "hashes": [
+                "sha256:d4813346451c7712226fce2cb9fd14c01ba172e45bfae4e5bb391f6dbbf9bcd7",
+                "sha256:db8762acd6d1761d1305f7e38538f1e4031027e5fd93957aca5d85197ad0537a"
+            ],
+            "index": "pypi",
+            "version": "==0.17.16"
         },
         "cymem": {
             "hashes": [
