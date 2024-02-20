@@ -53,6 +53,13 @@ class NLP():
             elif self.nlp.vocab.strings[match_id] == "DATE":
                 date = doc[start:end].text
         return origin, destination, date
+    
+    def extract_location(self, text):
+        """
+        Helper function for extracting a location from a input sentence
+        """
+        doc = self.nlp(text)
+        return [ent for ent in doc.ents if ent.label_ == "GPE"][0]
 
     def confirm_itinerary(self, origin, dest, date):
         
