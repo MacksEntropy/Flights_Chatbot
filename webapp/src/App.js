@@ -30,7 +30,7 @@ function App() {
     <ChatContext.Provider value={{ messages, setMessages }}>
       <div className="App">
         <header className="App-header">
-          <h1>Simple Chatbot</h1>
+          <h1>Flights Chatbot</h1>
         </header>
         <div className="Chat-container">
           <ChatMessages />
