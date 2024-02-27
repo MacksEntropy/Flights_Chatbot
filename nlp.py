@@ -21,6 +21,11 @@ class NLP():
         self.matcher.add("DESTINATION", [destination_pattern])
         self.matcher.add("DATE", [date_pattern])
 
+        self.origin = None
+        self.destination = None
+        self.date = None
+        self.numTickets = None
+
     def validate_date(self, date_str):
         try:
             # Parse the string into a datetime object
@@ -41,66 +46,37 @@ class NLP():
 
         doc = self.nlp(text)
         matches = self.matcher(doc)
-        origin = None
-        destination = None
-        date = None
 
         for match_id, start, end in matches:
+
             if self.nlp.vocab.strings[match_id] == "ORIGIN":
-                origin = doc[start+1:end].text
+                self.origin = doc[start+1:end].text
+
             elif self.nlp.vocab.strings[match_id] == "DESTINATION":
-                destination = doc[start+1:end].text
+                self.destination = doc[start+1:end].text
+
             elif self.nlp.vocab.strings[match_id] == "DATE":
-                date = doc[start:end].text
-        return origin, destination, date
-    
-    def extract_location(self, text):
-        """
-        Helper function for extracting a location from a input sentence
-        """
-        doc = self.nlp(text)
-        return [ent for ent in doc.ents if ent.label_ == "GPE"][0]
+                if self.validate_date(doc[start:end].text):
+                    self.date = doc[start:end].text
 
-    def confirm_itinerary(self, origin, dest, date):
+
+    def confirm_itinerary(self):
         
-        while not origin:
-            print("What city are you leaving from?")
-            o = input()
-            origin_doc = self.nlp(o)
-            origin = [ent for ent in origin_doc.ents if ent.label_ == "GPE"][0]
+        if not self.origin:
+            return "What city are you leaving from?"
 
-        while not dest:
-            print("What city would you like to visit?")
-            d = input()
-            dest_doc = self.nlp(d)
-            dest = [ent for ent in dest_doc.ents if ent.label_ == "GPE"][0]
+        if not self.destination:
+            return "What city would you like to visit?"
         
         # Maybe replace with date picker in webapp
-        while not date:
-            print("What date are you looking to fly? (Please enter in YYYY-MM-DD format)")
-            date_str = input()
-            date_doc = self.nlp(date_str)
-            for match_id, start, end in self.matcher(date_doc):
-                matched_span = date_doc[start:end]
-                if self.validate_date(matched_span.text):
-                    date = matched_span.text
-                else:
-                    print("Invalid date")
+        if not self.date:
+            return "What date are you looking to fly? (Please enter in YYYY-MM-DD format)"
 
-        # Maybe replace with dropdown in webapp
-        numTickets = None
-        while not numTickets:
-            print("How many tickets should I look for? (Must be greater than zero)")
-            tickets = int(input())
-            if tickets > 0: 
-                numTickets = tickets
-        return origin, dest, date, numTickets 
+# if __name__ == "__main__":
 
-if __name__ == "__main__":
-
-    nlp = NLP()
-    print('Hello, how can I help you today?')
-    user_input = input()
-    origin, destination, date = nlp.extract_itinerary(user_input)
-    orig, dest, date, numTickets = nlp.confirm_itinerary(origin, destination, date)
-    print(f"Looking for {numTickets} ticket(s) from {orig} to {dest} on {date}")
+    # nlp = NLP()
+    # print('Hello, how can I help you today?')
+    # user_input = input()
+    # nlp.extract_itinerary(user_input)
+    # orig, dest, date, numTickets = nlp.confirm_itinerary(origin, destination, date)
+    # print(f"Looking for {numTickets} ticket(s) from {orig} to {dest} on {date}")

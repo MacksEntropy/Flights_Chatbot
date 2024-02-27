@@ -4,6 +4,7 @@ import requests
 from nlp import NLP
 
 app = Flask(__name__)
+nlp = NLP()
 
 # Define a route to handle incoming chatbot requests
 @app.route("/chat", methods=["POST"])
@@ -12,14 +13,14 @@ def chat():
     try:
         data = request.json
         words = data.get('user_request')
-        nlp = NLP()
-        origin, destination, date = nlp.extract_itinerary(words)
+        nlp.extract_itinerary(words)
+        confirmation_text = nlp.confirm_itinerary()
         response = {
-            "origin" : origin,
-            "destination" : destination,
-            "date" : date
+            "origin" : nlp.origin,
+            "destination" : nlp.destination,
+            "date" : nlp.date
             }
-        return jsonify({'response' : response})
+        return jsonify({'text' : confirmation_text, 'response' : response})
     except Exception as e:
         return jsonify({'response' : e})
 
