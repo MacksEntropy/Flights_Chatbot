@@ -24,21 +24,17 @@ class NLP():
         self.origin = None
         self.destination = None
         self.date = None
-        self.numTickets = None
+        # TODO Add ability to specify number of tickets
+        self.numTickets = 1
 
     def validate_date(self, date_str):
+        """
+        Checks if the given date is not in the past. Must be in YYYY-MM-DD format
+        """
         try:
-            # Parse the string into a datetime object
             date_object = datetime.strptime(date_str, '%Y-%m-%d')
-            
-            # Get today's date
             today = datetime.now().date()
-            
-            # Check if the parsed date is not in the past
-            if date_object.date() >= today:
-                return True
-            else:
-                return False
+            return True if (date_object.date() >= today) else False
         except ValueError:
             return False
 
@@ -59,6 +55,29 @@ class NLP():
                 if self.validate_date(doc[start:end].text):
                     self.date = doc[start:end].text
 
+    def extract_location(self, text):
+        """
+        Helper function for extracting a location from a input sentence
+        """
+        doc = self.nlp(text)
+        if not self.origin:
+            orig = [ent for ent in doc.ents if ent.label_ == "GPE"][0]
+            self.origin = orig.text
+
+        if not self.destination:
+            dest = [ent for ent in doc.ents if ent.label_ == "GPE"][0]
+            self.destination = dest.text
+
+    def is_complete(self):
+        return True if (self.origin and self.destination and self.date and self.numTickets) else False
+        
+    def is_empty(self):
+        return True if not (self.origin or self.destination or self.date) else False
+    
+    def reset(self):
+        self.origin = None
+        self.destination = None
+        self.date = None
 
     def confirm_itinerary(self):
         
@@ -71,12 +90,5 @@ class NLP():
         # Maybe replace with date picker in webapp
         if not self.date:
             return "What date are you looking to fly? (Please enter in YYYY-MM-DD format)"
-
-# if __name__ == "__main__":
-
-    # nlp = NLP()
-    # print('Hello, how can I help you today?')
-    # user_input = input()
-    # nlp.extract_itinerary(user_input)
-    # orig, dest, date, numTickets = nlp.confirm_itinerary(origin, destination, date)
-    # print(f"Looking for {numTickets} ticket(s) from {orig} to {dest} on {date}")
+        
+        return f"Looking for {self.numTickets} ticket(s) from {self.origin} to {self.destination} on {self.date}"
