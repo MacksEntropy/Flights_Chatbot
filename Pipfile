@@ -9,6 +9,7 @@ spacy = "*"
 python-dotenv = "*"
 amadeus = "*"
 currencyconverter = "*"
+flask-cors = "*"
 
 [dev-packages]
 

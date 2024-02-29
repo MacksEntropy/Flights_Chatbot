@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 import requests
+from flask_cors import CORS, cross_origin
 
 from nlp import NLP
 from amadeus_interface import Amadeus
 
 app = Flask(__name__)
+cors = CORS(app)
 nlp = NLP()
 amadeus = Amadeus()
 
@@ -13,9 +15,9 @@ def chat():
 
     flights = ['']
     try:
-        data = request.json
-        input = data.get('user_request')
-
+        input = request.json
+        # For testing purposes
+        # input = data.get('user_request')
         if nlp.is_empty():
             nlp.extract_itinerary(input)
         elif not (nlp.origin and nlp.destination):
@@ -41,7 +43,11 @@ def chat():
             if type(flights) == str:
                 check_text = "Error in finding flights, please try again."
 
-        return jsonify({'text' : check_text, "flights" : flights})
+        origin = nlp.origin if nlp.origin else ''
+        destination = nlp.destination if nlp.destination else ''
+        date = nlp.date if nlp.date else ''
+
+        return jsonify({'text' : check_text, "origin" : origin, "destination" : destination, "date" : date, "flights" : flights})
     except Exception as e:
         return jsonify({'response' : e})
 
