@@ -15,18 +15,15 @@ class Amadeus():
             client_secret=os.getenv("AMADEUS_PRIV_KEY")
         )
 
-    def get_IATA_code(self, city : str) -> list[str]:
+    def get_IATA_code(self, city : str) -> str:
         """
-        Gets the IATA codes for the top 2 airports in a given city
+        Gets the IATA codes for the top airport in a given city
         """
         try:
             response = self.amadeus.reference_data.locations.get(
             keyword=city,
             subType=["AIRPORT"])
-            IATA_codes = []
-            for airport in response.data:
-                IATA_codes.append(airport['iataCode'])
-            return IATA_codes[0:2]
+            return response.data[0]['iataCode']
         except ResponseError as error:
             print(error)
 
@@ -50,6 +47,7 @@ class Amadeus():
             return self.format_flight_list(flight_list)
         except ResponseError as error:
             print(error)
+            return f"Error in finding flights: {error}"
 
     def convert_departure_arrival(self, iso_datetime):
 

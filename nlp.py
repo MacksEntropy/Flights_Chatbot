@@ -57,7 +57,7 @@ class NLP():
 
     def extract_location(self, text):
         """
-        Helper function for extracting a location from a input sentence
+        Helper function for extracting a location from an input
         """
         doc = self.nlp(text)
         if not self.origin:
@@ -71,9 +71,11 @@ class NLP():
     def is_complete(self):
         return True if (self.origin and self.destination and self.date and self.numTickets) else False
         
+    # TODO Add self.numTickets here for variable ticket functionallity
     def is_empty(self):
         return True if not (self.origin or self.destination or self.date) else False
     
+    # TODO Add self.numTickets here for variable ticket functionallity
     def reset(self):
         self.origin = None
         self.destination = None
