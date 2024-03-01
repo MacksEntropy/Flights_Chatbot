@@ -54,6 +54,8 @@ class NLP():
             elif self.nlp.vocab.strings[match_id] == "DATE":
                 if self.validate_date(doc[start:end].text):
                     self.date = doc[start:end].text
+                else:
+                    raise DateException()
 
     def extract_location(self, text):
         """
@@ -94,3 +96,8 @@ class NLP():
             return "What date are you looking to fly? (Please enter in YYYY-MM-DD format)"
         
         return f"Looking for {self.numTickets} ticket(s) from {self.origin} to {self.destination} on {self.date}"
+    
+class DateException(Exception):
+    def __init__(self, message="Date is incorrectly formatted."):
+        self.message = message
+        super().__init__(self.message)
