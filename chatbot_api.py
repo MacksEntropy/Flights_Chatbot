@@ -18,6 +18,9 @@ def chat():
         input = request.json
         # For testing purposes
         # input = data.get('user_request')
+        if nlp.is_complete():
+            nlp.reset()
+            
         if nlp.is_empty():
             nlp.extract_itinerary(input)
         elif not (nlp.origin and nlp.destination):
@@ -38,7 +41,6 @@ def chat():
         if nlp.is_complete():
             orig_airport, dest_airport = amadeus.get_IATA_code(nlp.origin), amadeus.get_IATA_code(nlp.destination)
             flights = amadeus.find_flights(orig_airport, dest_airport, nlp.date, nlp.numTickets)
-            nlp.reset()
 
             if type(flights) == str:
                 check_text = "Error in finding flights, please try again."
