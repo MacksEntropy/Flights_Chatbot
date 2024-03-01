@@ -24,7 +24,7 @@ class Amadeus():
             keyword=city,
             subType=["AIRPORT"])
             return response.data[0]['iataCode']
-        except ResponseError as error:
+        except Exception as error:
             print(error)
 
     def find_flights(self, origin : str, dest : str, departure_date: str, num_adults: int) -> list[str]:
