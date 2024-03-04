@@ -1,7 +1,13 @@
-## Challenge
+## Using the Chatbot
 
-This is a personal challenge to try and complete the problem presented by PROS at the 2024 Code Red Hackathon in 24 non consecutive hours. 
+First start up the virtual environment by running `pipenv shell` while in the main directory. Then start up the middleware server by running the `chatbot_api.py` file. Finally, boot up the UI by navigating to the `/webapp` directory and running `npm start`. An internet connection is required. 
 
-## Problem Statement
+## Improvements 
 
-Using natural language, allow a user to make a routing request against an air travel API (i.e. Amadeus). Generate the most enticing quote for a end user. 
+- Improve how nlp module identifies proper nouns (see propn_feature branch)
+- Add return date feature
+- Improve how UI handles when amadeus interface is called
+    - Add loading spinner while API call completes
+    - Look into how to improve preformace here
+- Improve how flight recommendations are displayed in the UI
+- Add feature for recommending flights based on sentiment / amenities (I want to go somewhere warm, go somewhere with a beach, etc...)
