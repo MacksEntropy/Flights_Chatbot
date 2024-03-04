@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "80165a89a5d2e5b4ae3a9c735904a9a3662f39844599ca93d90837ed2c13d007"
+            "sha256": "a54a45b54dc07eabdeb3ed23f1feb5874aeb60e2fb5629363224c59f45c8411f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -275,6 +275,14 @@
             ],
             "index": "pypi",
             "version": "==4.0.0"
+        },
+        "geonamescache": {
+            "hashes": [
+                "sha256:24fdaaeaf236f88786dec8c0ab55447f5f7f95ef6c094e79fa9ef74114ea1fe2",
+                "sha256:fa1eed0b5b591b478ad81979081ac15b37aa6a1c00bb02431a570688e5c2ecc9"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
         },
         "idna": {
             "hashes": [

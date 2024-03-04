@@ -1,6 +1,7 @@
 import spacy
 from spacy.matcher import Matcher
 from datetime import datetime
+from geonamescache import GeonamesCache
 
 class NLP():
 
@@ -20,6 +21,9 @@ class NLP():
         self.matcher.add("ORIGIN", [origin_pattern])
         self.matcher.add("DESTINATION", [destination_pattern])
         self.matcher.add("DATE", [date_pattern])
+        gc = GeonamesCache()
+        cities_dict = gc.get_cities()
+        self.cities = [*self.gen_dict_extract(cities_dict, 'name')]
 
         self.origin = None
         self.destination = None
@@ -37,6 +41,24 @@ class NLP():
             return True if (date_object.date() >= today) else False
         except ValueError:
             return False
+        
+    def gen_dict_extract(self, var, key):
+        if isinstance(var, dict):
+            for k, v in var.items():
+                if k == key:
+                    yield v
+                if isinstance(v, (dict, list)):
+                    yield from self.gen_dict_extract(v, key)
+        elif isinstance(var, list):
+            for d in var:
+                yield from self.gen_dict_extract(d, key)
+        
+    def validate_location(self, text):
+        if text in self.cities:
+            return True
+        else:
+            raise CityException(text)
+
 
     def extract_itinerary(self, text):
 
@@ -46,10 +68,18 @@ class NLP():
         for match_id, start, end in matches:
 
             if self.nlp.vocab.strings[match_id] == "ORIGIN":
-                self.origin = doc[start+1:end].text
+                location = doc[start+1:end].text
+                if location in self.cities:
+                    self.origin = location
+                else:
+                    raise CityException(location)
 
             elif self.nlp.vocab.strings[match_id] == "DESTINATION":
-                self.destination = doc[start+1:end].text
+                location = doc[start+1:end].text
+                if location in self.cities:
+                    self.destination = location
+                else:
+                    raise CityException(location)
 
             elif self.nlp.vocab.strings[match_id] == "DATE":
                 if self.validate_date(doc[start:end].text):
@@ -100,4 +130,10 @@ class NLP():
 class DateException(Exception):
     def __init__(self, message="Date is incorrectly formatted."):
         self.message = message
+        super().__init__(self.message)
+
+class CityException(Exception):
+    def __init__(self, city):
+        self.message = f"{city} not a city"
+        self.city = city
         super().__init__(self.message)

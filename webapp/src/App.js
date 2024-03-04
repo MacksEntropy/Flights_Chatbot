@@ -50,7 +50,7 @@ function App() {
         body: JSON.stringify(data),
       }).then(response => response.json())
       .then(data => {
-        // console.log("data is ",data)
+        console.log("data is ",data)
         return (data.flights[0] === "") ? data.text : formatFlightsData(data)
       });
     } catch (error) { 

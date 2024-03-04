@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS, cross_origin
 
-from nlp import NLP, DateException
+from nlp import NLP, DateException, CityException
 from amadeus_interface import Amadeus
 
 app = Flask(__name__)
@@ -35,6 +35,9 @@ def chat():
         except DateException as e:
             print(e)
             error_text = "Date is either incorrectly formatted or in the past. Please check your date and enter in as YYYY-MM-DD."
+        except CityException as e:
+            print(e)
+            error_text = "Given location is not a recognized city, please try again."
         
         check_text = nlp.confirm_itinerary()
         # For debugging purposes
