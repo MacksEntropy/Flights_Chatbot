@@ -1,10 +1,11 @@
 ## Dependencies
 - [pipenv](https://pipenv.pypa.io/en/latest/)
-- An internet connection 
+- [Amadeus](https://developers.amadeus.com/) API keys
+- An internet connection
 
 ## Using the Chatbot
 
-First start up the virtual environment by running `pipenv shell` while in the main directory. Then start up the middleware server by running the `chatbot_api.py` file. Finally, boot up the UI by navigating to the `/webapp` directory and running `npm start`. 
+First, create a `.env` file and add in the Amadeus API keys corresponding to the public key (`AMADEUS_API_KEY`) and the private key (`AMADEUS_PRIV_KEY`). The variable names need to correspond to the strings in `amadeus_interface.py`.  Then start up the virtual environment by running `pipenv shell` while in the main directory. Then start up the middleware server by running the `chatbot_api.py` file. Finally, boot up the UI by navigating to the `/webapp` directory and running `npm start`. 
 
 ## Improvements 
 
